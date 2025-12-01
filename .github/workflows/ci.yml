@@ -1,0 +1,30 @@
+name: Simple CI - Hello File
+
+# Run on push or PR to main branch
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout your repository
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # Step 2: Print a message and save it to a file
+      - name: Say hello and save to file
+        run: |
+          mkdir -p logs
+          echo "Hello from CI — your workflow ran successfully!" | tee logs/hello.txt
+
+      # Step 3: Upload the file as a downloadable artifact
+      - name: Upload hello artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello-file
+          path: logs/hello.txt
